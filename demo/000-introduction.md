@@ -2,7 +2,7 @@
 
 ## Introduction
 
-A `IHash` is an object that lets us define an _intelligent_ way to access a hash (or different hashes).
+An `IHash` is an object that lets us define an _intelligent_ way to access a hash (or different hashes).
 
 The idea is to create a _programmable_ access layer to a _Hash_ _like_ object that obies the `fetch` protocol
 of Ruby's built in `Hash`. 
@@ -19,7 +19,7 @@ The services `IHash` provides are of the number of four:
 
 ### Predefined
 
-The simplest meaningful example should look like the following:
+The simplest meaningful example could look like the following:
 
 ```ruby
     ihash = IHash.new a: 1, b: 2
@@ -46,7 +46,7 @@ Alternatively the `set_defaults` method can be used:
     end
 ```
 
-### Default provided via a parameter
+### Defaults provided via a parameter
 
 ```ruby
     ihash = IHash.new a: 1
@@ -70,7 +70,7 @@ later on.
 
 For know all we need to know to understand the following example
 is that `Proc` instances as default values will be evaluated
-in the `IHash` instances context.
+in the `IHash` instance's context.
 
 ```ruby
     rectangle = IHash.new \
@@ -78,11 +78,12 @@ in the `IHash` instances context.
       width: ->{ get( :surface ) / get( :height ) },
       surface: ->{ get( :width ) * get( :height ) }
 
-    # Obviously we need some data the following code
+    # Obviously we need some data here. The following code
     # will consume the whole stack before crashing.
     # Later on we will see how to avoid this by means
-    # of constraints, and hopefully a later version
+    # of defaults and constraints, and hopefully a later version
     # of IHash will detect the mutual infinite recursion.
+
     #   rectangle.get :surface
 
     # So let us provide some data
@@ -91,7 +92,7 @@ in the `IHash` instances context.
 ```
 
 Now it would be nice if we could avoid the potential stack overflow
-by means of defaults.
+by means of defaults. And, as promised, we can:
 
 ```ruby
     

@@ -108,3 +108,4 @@ by means of defaults. And, as promised, we can:
 
 ```
 
+To see how to do this with constraints, please refer to the [constraints demo](https://github.com/RobertDober/lab42_intellihash/blob/master/demo/050-constraints.md)

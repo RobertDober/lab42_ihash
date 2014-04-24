@@ -24,8 +24,8 @@ Let us dive into a simple example:
     
 ```
 
+In order to implement an early failure policy you need to raise exceptions yourself.
 
-In order to implement an early failure policy to raise exceptions yourself.
 ```ruby
     ArgumentError.assert.raised? do
       ihash =
@@ -37,68 +37,34 @@ In order to implement an early failure policy to raise exceptions yourself.
     end
 ```
 
+Maybe a `set_constraints!` method doing something like that for you can be
+implemented later on.
+
 Oh and I am so glad you asked, before setting values, constraints are not enforced and
-the instance is therefore valid:
+the instance is therefore valid in all cases:
 
 ```ruby
-    ihash = IHash.new.set_constraints \
-      a: ->{ raise ArgumentError },
-      b: ->{ false }
+    ihash = IHash.new( a: nil ).set_constraints a: ->{ raise ArgumentError }
 
     ihash.valid?.assert == true
-    ihash.set_values b: nil
-    ihash.valid?.assert == false
 
     ArgumentError.assert.raised? do
-      ihash.set_values a: nil
+      ihash.set_values b: nil
     end
+    ihash.valid?.assert == false
+    ihash.errors.first.assert == 'constraint for key :a raised an error ArgumentError'
 ```
 
-So far everything was very easy, but now we need to consider, how caching, constraints and logic work together
-
-## Caching
-
-Let us at first verify that caching does the right thing.
-
-With right thing we mean that we we cache all values that
-are computed. We do not cache values that are in the defaults hash, nor
-values that are in the values hash. And when we access a value with
-a default parameter in `get` it will not be cached either.
-
-This way, `get` will behave like a pure function.
+And this works for calculated values too, of course:
 
 ```ruby
-    ihash = IHash.new \
-      a: ->{ get :a, 42 }, 
-      b: ->{ get( :a, 41 ) + 1 }
+    ihash = IHash
+      .new( a: ->{ - get( :b ) } )
+      .set_constraints( a: ->(val){ val > 0 } )
+      .set_values b: 42
 
-    #  Default param in get( :a, 41 ) is triggered but not cached
-    ihash.get( :b ).assert == 42
-    ihash.get( :a ).assert == 42
-
-    # Invalidate the cache so that b is not
-    # cached. We will cache a again
-    ihash.get( :a ).assert == 42
-    # But default params in get have higher priorities
-    ihash.get( :b ).assert == 42
-  
-  
-    ihash.set_values
-    ihash.get( :b ).assert == 42
-    ihash.get( :a ).assert == 41
-```
-  
-However, the default parameter inside `get` is not cached itself, proof:
-
-```ruby
-    ihash.set_values
-    ihash.get( :a, nil ).assert == nil
-    ihash.get( :b ).assert == 42
-    ihash.get( :a, nil ).assert == 41
+    ihash.valid?.assert == false
+    
 ```
 
 
-This behavior might change with minor version updates as it is not very
-intuitive.
-
-Now that we are aware how caching and default values work let us go further with constraints

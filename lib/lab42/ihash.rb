@@ -64,19 +64,23 @@ module Lab42
       return default.first unless default.empty?
       cache.fetch key do
         raise KeyError, "#{key} not found in values, defaults or logic" unless defaults.has_key? key
-        @cache[ key ] = evaluate( defaults[key] )
+        cache[ key ] = evaluate( defaults[key] )
       end
     end
 
     def validate_constraints
       constraints.each do | constraint |
-        values.each do | k, v |
-          c = constraint[k]
-          next unless c
+        constraint.each do | k, c |
+          v = get k
           if c.arity == 1
             c.(v) || errors << "value error for key #{k.inspect} and value #{v.inspect}"
           else
-            instance_exec(&c) || errors << "value error for key #{k.inspect} and value #{v.inspect}"
+            begin
+              instance_exec(&c) || errors << "value error for key #{k.inspect} and value #{v.inspect}"
+            rescue StandardError => e
+              errors << "constraint for key #{k.inspect} raised an error #{e}"
+              raise
+            end
           end
         end
       end

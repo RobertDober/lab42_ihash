@@ -2,10 +2,8 @@
 
 ## Introduction
 
-An `IHash` is an object that lets us define an _intelligent_ way to access a hash (or different hashes).
+An `IHash` is an object that lets us define an _intelligent_ way to access a Hash like object.
 
-The idea is to create a _programmable_ access layer to a _Hash_ _like_ object that obies the `fetch` protocol
-of Ruby's built in `Hash`. 
 
 The services `IHash` provides are of the number of four:
 
@@ -92,7 +90,8 @@ in the `IHash` instance's context.
 ```
 
 Now it would be nice if we could avoid the potential stack overflow
-by means of defaults. And, as promised, we can:
+by means of defaults.
+And, as promised, we can:
 
 ```ruby
     
@@ -100,7 +99,6 @@ by means of defaults. And, as promised, we can:
       height: ->{ get( :surface, 600 ) / get( :width, 20 ) },
       width: ->{ get( :surface, 600 ) / get( :height ) },
       surface: ->{ get( :width ) * get( :height ) }
-
 
     # These defaults shall be sufficent
     rectangle.get( :surface ).assert == 600

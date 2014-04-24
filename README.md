@@ -1,5 +1,4 @@
-lab42_intellihash
-=================
+# lab42_ihash
 
 A Hash with Business Logic ( call it intelligent ).
 
@@ -28,7 +27,6 @@ The services `IHash` provides are of the number of four:
     require 'lab42/ihash'
 
     IHash = Lab42::IHash
-    IntelliHash = Lab42::IntelliHash
 ```
 
 

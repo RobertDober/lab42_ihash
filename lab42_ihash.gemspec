@@ -5,14 +5,14 @@ $:.unshift File.join( base, 'lib' )
 require 'lab42/ihash/version'
 
 Gem::Specification.new do | spec |
-  spec.name        = 'lab42_intellihash'
+  spec.name        = 'lab42_ihash'
   spec.version     = Lab42::IHash::VERSION
   spec.authors     = ['Robert Dober']
   spec.email       = %w{ robert.dober@gmail.com }
   spec.description = %{A Hash with Business Logic (call it intelligent).}
-  spec.summary     = %{An object that upon creation will provide a DSL to specify lookup dependencies, constraints and defaults. When used with
-an Hash like object (needs to provide the fetch protocol only, constraints are checked and lookup logic will be executed lazily and cached.}
-  spec.homepage    = %{https://github.com/RobertDober/muxoro}
+  spec.summary     = %{A view over Hash like objects (needs to implement #fetch only).
+Allowing to specify defaults, constraints and business logic. Implements caching for computed values.}
+  spec.homepage    = %{https://github.com/RobertDober/lab42_ihash}
   spec.license     = 'MIT'
 
   spec.files         = `git ls-files`.split($/)
@@ -25,7 +25,7 @@ an Hash like object (needs to provide the fetch protocol only, constraints are c
   spec.required_ruby_version = '>= 2.0.0'
   spec.required_rubygems_version = '>= 2.2.2'
 
-  spec.add_dependency 'forwarder2', '~> 0.2'
+  # spec.add_dependency 'forwarder2', '~> 0.2'
 
   spec.add_development_dependency 'bundler', '~> 1.6'
   spec.add_development_dependency 'rspec', '~> 2.14'

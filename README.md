@@ -34,4 +34,4 @@ The services `IHash` provides are of the number of four:
 
 ## Manual (QED Driven)
 
-Details are explained in the QED demos [here](https://github.com/RobertDober/lab42_intellihash/tree/master/demo)
+Details are explained in the [QED](https://github.com/rubyworks/qed) demos [here](https://github.com/RobertDober/lab42_intellihash/tree/master/demo)

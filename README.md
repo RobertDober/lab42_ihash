@@ -29,6 +29,13 @@ The services `IHash` provides are of the number of four:
     IHash = Lab42::IHash
 ```
 
+Or to do the same in one line of code
+
+```ruby
+    require 'lab42/ihash/auto_import'
+```
+
+
 
 ## Manual (QED Driven)
 

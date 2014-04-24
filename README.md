@@ -16,6 +16,12 @@ The services `IHash` provides are of the number of four:
 * Caching of Computed Values.
 
 
+## Installation
+
+```sh
+    gem install lab42_ihash --pre
+```
+
 ## Usage
 
 ```ruby
